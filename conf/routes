@@ -1,0 +1,17 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+# Home page
+GET     /                           controllers.HomeController.index()
+
+# Routes for Assets
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+# User routes
+POST    /register                   controllers.UserController.register
+POST    /login                      controllers.UserController.login
+GET     /profile/:userId            controllers.UserController.getProfile(userId: String)
+PUT     /profile/:userId            controllers.UserController.updateProfile(userId: String)
+
