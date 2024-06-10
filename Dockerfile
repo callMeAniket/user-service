@@ -1,19 +1,28 @@
-# Use the official sbt image which includes OpenJDK 11
+# Use an official lightweight Scala and SBT image as a parent image
 FROM hseeberger/scala-sbt:11.0.13_1.6.1_2.13.7 as build
 
-# Set the working directory inside the container
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy the build.sbt and other necessary files to the working directory
-
+# Copy the current directory contents into the container at /app
 COPY . /app
 
-# Copy the source code and any necessary configuration files
+# Compile and package the application
+RUN sbt clean compile stage
 
-EXPOSE 6001
+# Use the OpenJDK image for running the application
+FROM openjdk:11-jre-slim
 
-# Compile the application
-RUN sbt clean compile
+# Copy the binary files from the previous stage
+COPY --from=build /app/target/universal/stage /app
+# Set the working directory in the container
+WORKDIR /app
 
-# Define the entry point for the container to run the sbt command
-CMD ["sbt", "run"]
+# Make port 9000 available to the world outside this container
+EXPOSE 9001
+
+# Define environment variable
+ENV PLAY_HTTP_SECRET=pndkmnrxewdssdduxpopfersdikfjdieihgymuzkhrrmhniypjweqzhjgscykjisuxcdldyiedwafechssnkzkuwzquzsmntsyhrehldaiiibxadbvhdhpjizfdtjpti
+
+# Run the binary script when the container launches
+CMD ./bin/userservice -Dplay.http.secret.key=$PLAY_HTTP_SECRET
