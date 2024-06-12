@@ -1,5 +1,6 @@
-package models
+package daos
 
+import models.User
 import slick.jdbc.MySQLProfile.api._
 
 class UserTable(tag: Tag) extends Table[User](tag, "user") {
@@ -9,6 +10,7 @@ class UserTable(tag: Tag) extends Table[User](tag, "user") {
   def password = column[String]("password")
   def phoneNumber = column[String]("phoneNumber")
   def role = column[String]("role")
+  def token = column[Option[String]]("token")
 
-  def * = (id.?, name, email, password, phoneNumber, role) <> ((User.apply _).tupled, User.unapply)
+  def * = (id.?, name, email, password, phoneNumber, role, token) <> ((User.apply _).tupled, User.unapply)
 }

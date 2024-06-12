@@ -1,6 +1,6 @@
 package daos
 
-import models.{User, UserTable}
+import models.User
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.MySQLProfile
 
@@ -41,5 +41,16 @@ class UserDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(
 
   def findAll(): Future[Seq[User]] = {
     db.run(users.result)
+  }
+
+  def login(user: User, useThisToken: String): Future[String] = {
+    val update: User = user.copy(token = Some(useThisToken))
+    db.run(users.filter(_.id === user.id).update(update))
+    Future.successful(useThisToken)
+  }
+
+  def logout(user: User): Unit = {
+    val update: User = user.copy(token = None)
+    db.run(users.filter(_.id === user.id).update(update))
   }
 }
