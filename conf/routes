@@ -8,6 +8,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 GET     /users/getAll                       controllers.UserController.listUsers()
 POST    /users/add                          controllers.UserController.createUser()
 GET     /users/:id                          controllers.UserController.getUser(id: Int)
+GET     /usersByToken                       controllers.UserController.getUserByToken()
 PUT     /users/update/:id                   controllers.UserController.updateUser(id: Int)
 DELETE  /users/delete/:id                   controllers.UserController.deleteUser(id: Int)
 POST    /user/login                         controllers.UserController.userLogin()
