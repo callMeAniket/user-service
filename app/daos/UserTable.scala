@@ -3,7 +3,7 @@ package daos
 import models.User
 import slick.jdbc.MySQLProfile.api._
 
-class UserTable(tag: Tag) extends Table[User](tag, "user") {
+class UserTable(tag: Tag) extends Table[User](tag, "copyusers") {
   def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
   def email = column[String]("email")
