@@ -1,4 +1,4 @@
-name := """UserService"""
+name := """userservice"""
 
 version := "1.0-SNAPSHOT"
 
