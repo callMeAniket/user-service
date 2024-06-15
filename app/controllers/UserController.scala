@@ -38,6 +38,7 @@ class UserController @Inject()(cc: ControllerComponents, userService: UserServic
   }
 
   def getUserByToken: Action[AnyContent] = Action.async { implicit request =>
+    print("Request reached in user service + " + request)
     userService.getUserByToken(request.headers.get("token").get).map {
       case Some(user) => Ok(Json.toJson(user))
       case None => NotFound(Json.obj("message" -> "User not found"))
